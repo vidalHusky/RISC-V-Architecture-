@@ -1,0 +1,18 @@
+`timescale 1ns / 1ps
+//Julia Rasmussen & Javier Vidal
+//10/21/2022
+module TwoToOneMux(
+    input logic [15:0]a,
+    input logic [15:0]b,
+    input logic sel_mux,
+    output logic [15:0]out
+    );
+    always@(*)begin
+        if(sel_mux)begin
+            out = b;
+        end
+        else begin 
+            out = a;
+        end
+    end
+endmodule
