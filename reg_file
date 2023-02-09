@@ -1,0 +1,28 @@
+//Julia Rasmussen & Javier Vidal
+//10/21/2022
+module reg_file #(parameter WIDTH=16, DEPTH=8)(
+    input logic rst,
+    input logic clk,
+    input logic wr_en,
+    input logic [2:0]rd0_addr,
+    input logic [2:0]rd1_addr,
+    input logic [2:0]wr_addr,
+    input logic [15:0]wr_data,
+    output logic [15:0]rd0_data,
+    output logic [15:0]rd1_data
+    );
+    logic [WIDTH-1:0] reg_array[0:DEPTH-1];
+    integer i=0;
+    assign rd0_data = reg_array[rd0_addr];
+    assign rd1_data = reg_array[rd1_addr]; 
+    always@(posedge clk, posedge rst)begin 
+    if (rst == 1)begin
+        for(int i = 0; i<=DEPTH-1; i++)begin
+            reg_array[i]<=0;
+        end 
+    end
+    else if(wr_en == 1)begin
+        reg_array[wr_addr]<=wr_data;
+    end 
+    end 
+endmodule
