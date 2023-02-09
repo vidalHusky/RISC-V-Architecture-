@@ -1,0 +1,40 @@
+`timescale 1ns / 1ps
+//Julia Rasmussen & Javier Vidal
+//10/21/2022
+
+module alu(
+    input signed [15:0]a,
+    input signed [15:0]b,
+    input [3:0]s,
+    output logic signed [15:0]f,
+    output logic take_branch,
+    output logic ovf
+    );
+
+
+always @(*)
+    begin
+      take_branch = 0;
+      ovf = 0;
+    case(s)
+        4'b0000: begin 
+                    f = a + b;
+                    ovf = ((~f[15]&a[15]&b[15]) | (f[15]&(~a[15])&(~b[15]))); 
+                 end 
+        4'b0001: f = ~b;
+        4'b0010: f = a & b;
+        4'b0011: f = a|b;
+        4'b0100: f = a>>>b;
+        4'b0101: f = a<<b;
+        4'b0110: begin
+                    f = 0;
+                    take_branch = a == 0;
+                end
+        4'b0111: begin
+                    f = 0;
+                    take_branch = a != 0;
+                end
+        4'b1000: f = a ^ b;
+    endcase    
+end
+endmodule
