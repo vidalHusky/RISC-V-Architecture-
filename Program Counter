@@ -1,15 +1,17 @@
 `timescale 1ns / 1ps
 //Julia Rasmussen and Javier Vidal
 module program_counter(
-input logic clk, input logic rst, output logic [7:0]pc
+input logic clk, input logic rst,input logic take_branch, input logic [8:0]offset, output logic [8:0]pc
     );
     always@(posedge clk, posedge rst)begin
-        if(rst)begin
+        if(rst)
             pc = 0;
-            end
         else begin
-            pc = pc+1;
+            if(take_branch==1) 
+                pc = pc + offset;
+            else 
+                pc = pc+1;
             end 
-    end 
+end
     
 endmodule
